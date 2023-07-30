@@ -1,20 +1,19 @@
 {
   "name": "easy-log",
   "version": "1.0.3",
-  "homepage": "https://github.com/vbenjs/vue-vben-admin",
+  "homepage": "https://gitee.com/easy-log/easy-log-front.git",
   "bugs": {
-    "url": "https://github.com/vbenjs/vue-vben-admin/issues"
+    "url": ""
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vbenjs/vue-vben-admin.git"
+    "url": "git@github.com:easy-log/easy-log-front.git"
   },
   "license": "MIT",
   "author": {
     "name": "tan90",
     "email": "89754644@qq.com",
-    "gitee": "git@gitee.com:easy-log/easy-log-front.git",
-    "github": "git@github.com:easy-log/easy-log-front.git"
+    "url": "https://gitee.com/easy-log/easy-log-front.git"
   },
   "scripts": {
     "bootstrap": "pnpm install",
