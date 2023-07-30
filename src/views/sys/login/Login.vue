@@ -1,7 +1,7 @@
 <template>
   <div :class="prefixCls" class="relative w-full h-full px-4">
     <div class="flex items-center absolute right-4 top-4">
-      <!-- <AppDarkModeToggle class="enter-x mr-2" v-if="!sessionTimeout" /> -->
+      <AppDarkModeToggle class="enter-x mr-2" v-if="!sessionTimeout" />
       <AppLocalePicker
         class="text-white enter-x xl:text-gray-600"
         :show-text="false"
@@ -37,10 +37,6 @@
             class="relative w-full px-5 py-8 mx-auto my-auto rounded-md shadow-md xl:ml-16 xl:bg-transparent sm:px-8 xl:p-4 xl:shadow-none sm:w-3/4 lg:w-2/4 xl:w-auto enter-x"
           >
             <LoginForm />
-            <ForgetPasswordForm />
-            <RegisterForm />
-            <MobileForm />
-            <QrCodeForm />
           </div>
         </div>
       </div>
@@ -49,12 +45,8 @@
 </template>
 <script lang="ts" setup>
   import { computed } from 'vue';
-  import { AppLogo, AppLocalePicker } from '/@/components/Application';
+  import { AppLogo, AppLocalePicker, AppDarkModeToggle } from '/@/components/Application';
   import LoginForm from './LoginForm.vue';
-  import ForgetPasswordForm from './ForgetPasswordForm.vue';
-  import RegisterForm from './RegisterForm.vue';
-  import MobileForm from './MobileForm.vue';
-  import QrCodeForm from './QrCodeForm.vue';
   import { useGlobSetting } from '/@/hooks/setting';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useDesign } from '/@/hooks/web/useDesign';
@@ -84,7 +76,7 @@
       background-color: @dark-bg;
 
       &::before {
-        background-image: url('/@/assets/svg/login-bg-dark.svg');
+        background-image: url('/src/assets/svg/login-bg-dark.svg');
       }
 
       .ant-input,
@@ -132,7 +124,7 @@
       width: 100%;
       height: 100%;
       margin-left: -48%;
-      background-image: url('/@/assets/svg/login-bg.svg');
+      background-image: url('/src/assets/svg/login-bg.svg');
       background-repeat: no-repeat;
       background-position: 100%;
       background-size: auto 100%;
