@@ -129,7 +129,6 @@
         survival: 5, //验证码有效时间min 默认5min
       };
       captchaImgStr.value = await LoginCaptchaApi(captchaParams, 'none');
-      console.log(captchaImgStr.value);
       captchaImgLoading.value = false;
     } catch (error) {
       captchaImgLoading.value = false;
@@ -157,6 +156,7 @@
         });
       }
     } catch (error) {
+      await resetCaptchaImgBase64();
       createErrorModal({
         title: t('sys.api.errorTip'),
         content: (error as unknown as Error).message || t('sys.api.networkExceptionMsg'),

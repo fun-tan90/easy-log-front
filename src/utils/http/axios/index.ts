@@ -72,10 +72,22 @@ const transform: AxiosTransform = {
 
     // 在此处根据自己项目的实际情况对不同的code执行不同的操作
     // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
+    // AUTH_1001004("1001004", "已读取到 token，但是 token 无效"),
+    // AUTH_1001005("1001005", "已读取到 token，但是 token 已经过期"),
+    // AUTH_1001006("1001006", "已读取到 token，但是 token 已被顶下线"),
+    // AUTH_1001007("1001007", "已读取到 token，但是 token 已被踢下线"),
+    // AUTH_1001008("1001008", "已读取到 token，但是 token 已被冻结"),
+    // AUTH_1001009("1001009", "未按照指定前缀提交 token"),
+    // AUTH_1001010("1001010", "当前会话未登录"),
     let timeoutMsg = '';
     switch (code) {
-      case ResultEnum.TIMEOUT:
-        timeoutMsg = msg || t('sys.api.timeoutMessage');
+      case '1001004':
+      case '1001005':
+      case '1001006':
+      case '1001007':
+      case '1001008':
+      case '1001010':
+        timeoutMsg = msg;
         const userStore = useUserStoreWithOut();
         userStore.setToken(undefined);
         userStore.logout(true);
