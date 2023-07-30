@@ -91,6 +91,7 @@ export default {
     // placeholder
     accountPlaceholder: 'Please input username',
     passwordPlaceholder: 'Please input password',
+    smsHandler: 'sms code',
     smsPlaceholder: 'Please input sms code',
     mobilePlaceholder: 'Please input mobile',
     policyPlaceholder: 'Register after checking',

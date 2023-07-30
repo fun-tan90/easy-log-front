@@ -67,8 +67,8 @@ export default {
     signUpFormTitle: '注册',
     forgetFormTitle: '重置密码',
 
-    signInTitle: '开箱即用的中后台管理系统',
-    signInDesc: '输入您的个人详细信息开始使用！',
+    signInTitle: '易用的日志收集、分析和检索平台',
+    signInDesc: '',
     policy: '我同意xxx隐私政策',
     scanSign: `扫码后点击"确认"，即可完成登录`,
 
@@ -85,6 +85,7 @@ export default {
     // placeholder
     accountPlaceholder: '请输入账号',
     passwordPlaceholder: '请输入密码',
+    smsHandler: '验证码',
     smsPlaceholder: '请输入验证码',
     mobilePlaceholder: '请输入手机号码',
     policyPlaceholder: '勾选后才能注册',

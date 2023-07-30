@@ -8,10 +8,10 @@
     v-show="getShow"
     @keypress.enter="handleLogin"
   >
-    <FormItem name="account" class="enter-x">
+    <FormItem name="username" class="enter-x">
       <Input
         size="large"
-        v-model:value="formData.account"
+        v-model:value="formData.username"
         :placeholder="t('sys.login.userName')"
         class="fix-auto-fill"
       />
@@ -24,6 +24,27 @@
         :placeholder="t('sys.login.password')"
       />
     </FormItem>
+    <div class="captcha-row">
+      <div class="captcha-row-control">
+        <FormItem name="captchaValue" class="enter-x">
+          <Input
+            size="large"
+            v-model:value="formData.captchaValue"
+            :placeholder="t('sys.login.smsPlaceholder')"
+            class="fix-auto-fill"
+          />
+        </FormItem>
+      </div>
+      <div class="captcha-row-img">
+        <ASpin size="small" :spinning="captchaImgLoading">
+          <img
+            :src="captchaImgStr"
+            :alt="t('sys.login.smsHandler')"
+            @click="resetCaptchaImgBase64"
+          />
+        </ASpin>
+      </div>
+    </div>
 
     <ARow class="enter-x">
       <ACol :span="12">
@@ -34,64 +55,19 @@
           </Checkbox>
         </FormItem>
       </ACol>
-      <ACol :span="12">
-        <FormItem :style="{ 'text-align': 'right' }">
-          <!-- No logic, you need to deal with it yourself -->
-          <Button type="link" size="small" @click="setLoginState(LoginStateEnum.RESET_PASSWORD)">
-            {{ t('sys.login.forgetPassword') }}
-          </Button>
-        </FormItem>
-      </ACol>
     </ARow>
 
     <FormItem class="enter-x">
       <Button type="primary" size="large" block @click="handleLogin" :loading="loading">
         {{ t('sys.login.loginButton') }}
       </Button>
-      <!-- <Button size="large" class="mt-4 enter-x" block @click="handleRegister">
-        {{ t('sys.login.registerButton') }}
-      </Button> -->
     </FormItem>
-    <ARow class="enter-x">
-      <ACol :md="8" :xs="24">
-        <Button block @click="setLoginState(LoginStateEnum.MOBILE)">
-          {{ t('sys.login.mobileSignInFormTitle') }}
-        </Button>
-      </ACol>
-      <ACol :md="8" :xs="24" class="!my-2 !md:my-0 xs:mx-0 md:mx-2">
-        <Button block @click="setLoginState(LoginStateEnum.QR_CODE)">
-          {{ t('sys.login.qrSignInFormTitle') }}
-        </Button>
-      </ACol>
-      <ACol :md="6" :xs="24">
-        <Button block @click="setLoginState(LoginStateEnum.REGISTER)">
-          {{ t('sys.login.registerButton') }}
-        </Button>
-      </ACol>
-    </ARow>
-
-    <Divider class="enter-x">{{ t('sys.login.otherSignIn') }}</Divider>
-
-    <div class="flex justify-evenly enter-x" :class="`${prefixCls}-sign-in-way`">
-      <GithubFilled />
-      <WechatFilled />
-      <AlipayCircleFilled />
-      <GoogleCircleFilled />
-      <TwitterCircleFilled />
-    </div>
   </Form>
 </template>
 <script lang="ts" setup>
-  import { reactive, ref, unref, computed } from 'vue';
+  import { reactive, ref, unref, computed, onMounted } from 'vue';
 
-  import { Checkbox, Form, Input, Row, Col, Button, Divider } from 'ant-design-vue';
-  import {
-    GithubFilled,
-    WechatFilled,
-    AlipayCircleFilled,
-    GoogleCircleFilled,
-    TwitterCircleFilled,
-  } from '@ant-design/icons-vue';
+  import { Checkbox, Form, Input, Row, Col, Button, Spin } from 'ant-design-vue';
   import LoginFormTitle from './LoginFormTitle.vue';
 
   import { useI18n } from '/@/hooks/web/useI18n';
@@ -100,10 +76,12 @@
   import { useUserStore } from '/@/store/modules/user';
   import { LoginStateEnum, useLoginState, useFormRules, useFormValid } from './useLogin';
   import { useDesign } from '/@/hooks/web/useDesign';
+  import { LoginCaptchaApi } from '/@/api/sys/captcha';
   //import { onKeyStroke } from '@vueuse/core';
 
   const ACol = Col;
   const ARow = Row;
+  const ASpin = Spin;
   const FormItem = Form.Item;
   const InputPassword = Input.Password;
   const { t } = useI18n();
@@ -111,16 +89,20 @@
   const { prefixCls } = useDesign('login');
   const userStore = useUserStore();
 
-  const { setLoginState, getLoginState } = useLoginState();
+  const { getLoginState } = useLoginState();
   const { getFormRules } = useFormRules();
 
   const formRef = ref();
   const loading = ref(false);
   const rememberMe = ref(false);
+  const captchaKey = ref('');
+  const captchaImgStr = ref('');
+  const captchaImgLoading = ref(false);
 
   const formData = reactive({
-    account: 'vben',
+    username: 'admin',
     password: '123456',
+    captchaValue: '',
   });
 
   const { validForm } = useFormValid(formRef);
@@ -129,6 +111,31 @@
 
   const getShow = computed(() => unref(getLoginState) === LoginStateEnum.LOGIN);
 
+  onMounted(() => {
+    resetCaptchaImgBase64();
+  });
+
+  // 获取验证码
+  async function resetCaptchaImgBase64() {
+    try {
+      captchaImgLoading.value = true;
+      const currentCaptchaKey = new Date().getTime().toString().substring(1);
+      captchaKey.value = currentCaptchaKey;
+      const captchaParams = {
+        captchaKey: currentCaptchaKey, //获取验证码时随机KEY
+        width: 103, //验证码宽度 (原始宽高比：130:48) 根据现高度和宽高比计算宽度值为103px
+        height: 38, //验证码高度 (原始宽高比：130:48) 现高度为表单控件的高度40减去上下1像素边框得到38px
+        len: 2, //验证码计算位数 默认2
+        survival: 5, //验证码有效时间min 默认5min
+      };
+      captchaImgStr.value = await LoginCaptchaApi(captchaParams, 'none');
+      console.log(captchaImgStr.value);
+      captchaImgLoading.value = false;
+    } catch (error) {
+      captchaImgLoading.value = false;
+    }
+  }
+
   async function handleLogin() {
     const data = await validForm();
     if (!data) return;
@@ -136,13 +143,16 @@
       loading.value = true;
       const userInfo = await userStore.login({
         password: data.password,
-        username: data.account,
+        username: data.username,
+        captchaKey: captchaKey.value,
+        captchaValue: data.captchaValue,
+        rememberMe: rememberMe.value,
         mode: 'none', //不要默认的错误提示
       });
       if (userInfo) {
         notification.success({
           message: t('sys.login.loginSuccessTitle'),
-          description: `${t('sys.login.loginSuccessDesc')}: ${userInfo.realName}`,
+          description: `${t('sys.login.loginSuccessDesc')}: ${userInfo.userName}`,
           duration: 3,
         });
       }
@@ -157,3 +167,39 @@
     }
   }
 </script>
+
+<style lang="less">
+  .captcha-row {
+    position: relative;
+    height: 40px;
+    margin-bottom: 24px;
+
+    .captcha-row-control {
+      position: absolute;
+      top: 0;
+      right: 121px;
+      left: 0;
+
+      input:not([type='checkbox']) {
+        min-width: unset;
+      }
+    }
+
+    .captcha-row-img {
+      display: inline-block;
+      position: absolute;
+      right: 0;
+      width: 105px;
+      height: 40px;
+      border: 1px solid rgb(217 217 217);
+      border-radius: 3px;
+      cursor: pointer;
+    }
+  }
+
+  html[data-theme='dark'] {
+    .captcha-row .captcha-row-img {
+      border-color: #4a5569;
+    }
+  }
+</style>

@@ -90,8 +90,7 @@ export const useUserStore = defineStore({
     ): Promise<GetUserInfoModel | null> {
       try {
         const { goHome = true, mode, ...loginParams } = params;
-        const data = await loginApi(loginParams, mode);
-        const { token } = data;
+        const token = await loginApi(loginParams, mode);
 
         // save token
         this.setToken(token);
@@ -127,7 +126,7 @@ export const useUserStore = defineStore({
       const userInfo = await getUserInfo();
       const { roles = [] } = userInfo;
       if (isArray(roles)) {
-        const roleList = roles.map((item) => item.value) as RoleEnum[];
+        const roleList = roles.map((item) => item) as RoleEnum[];
         this.setRoleList(roleList);
       } else {
         userInfo.roles = [];
