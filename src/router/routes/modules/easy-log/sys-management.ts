@@ -18,6 +18,7 @@ const sysManagement: AppRouteModule = {
       name: 'IndexManagement',
       meta: {
         title: t('routes.sys-management.indexName'),
+        icon: 'fluent-emoji-high-contrast:card-index-dividers',
         ignoreKeepAlive: false,
       },
       component: () => import('/src/views/easy-log/sys-management/index-management/index.vue'),
