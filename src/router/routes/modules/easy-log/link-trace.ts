@@ -1,7 +1,7 @@
-import type { AppRouteModule } from '/src/router/types';
+import type { AppRouteModule } from '/@/router/types';
 
-import { LAYOUT } from '/src/router/constant';
-import { t } from '/src/hooks/web/useI18n';
+import { LAYOUT } from '/@/router/constant';
+import { t } from '/@/hooks/web/useI18n';
 
 const linkTrace: AppRouteModule = {
   path: '/link-trace',
@@ -17,7 +17,7 @@ const linkTrace: AppRouteModule = {
     {
       path: 'index',
       name: 'LinkTraceIndex',
-      component: () => import('/src/views/easy-log/link-trace/index.vue'),
+      component: () => import('/@/views/easy-log/link-trace/index.vue'),
       meta: {
         icon: 'icon-park-outline:trace',
         title: t('routes.link-trace.title'),

@@ -1,7 +1,7 @@
-import type { AppRouteModule } from '/src/router/types';
+import type { AppRouteModule } from '/@/router/types';
 
-import { LAYOUT } from '/src/router/constant';
-import { t } from '/src/hooks/web/useI18n';
+import { LAYOUT } from '/@/router/constant';
+import { t } from '/@/hooks/web/useI18n';
 
 const realTimeLog: AppRouteModule = {
   path: '/real-time-log',
@@ -17,7 +17,7 @@ const realTimeLog: AppRouteModule = {
     {
       path: 'index',
       name: 'RealTimeLogIndex',
-      component: () => import('/src/views/easy-log/real-time-log/index.vue'),
+      component: () => import('/@/views/easy-log/real-time-log/index.vue'),
       meta: {
         icon: 'octicon:log-16',
         title: t('routes.real-time-log.title'),

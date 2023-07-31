@@ -1,7 +1,7 @@
-import type { AppRouteModule } from '/src/router/types';
+import type { AppRouteModule } from '/@/router/types';
 
-import { LAYOUT } from '/src/router/constant';
-import { t } from '/src/hooks/web/useI18n';
+import { LAYOUT } from '/@/router/constant';
+import { t } from '/@/hooks/web/useI18n';
 
 const alarmManagement: AppRouteModule = {
   path: '/alarm-management',
@@ -17,7 +17,7 @@ const alarmManagement: AppRouteModule = {
     {
       path: 'index',
       name: 'AlarmManagementIndex',
-      component: () => import('/src/views/easy-log/alarm-management/index.vue'),
+      component: () => import('/@/views/easy-log/alarm-management/index.vue'),
       meta: {
         icon: 'icon-park-outline:alarm',
         title: t('routes.alarm-management.title'),

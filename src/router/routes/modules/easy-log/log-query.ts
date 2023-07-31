@@ -1,7 +1,7 @@
-import type { AppRouteModule } from '/src/router/types';
+import type { AppRouteModule } from '/@/router/types';
 
-import { LAYOUT } from '/src/router/constant';
-import { t } from '/src/hooks/web/useI18n';
+import { LAYOUT } from '/@/router/constant';
+import { t } from '/@/hooks/web/useI18n';
 
 const logQuery: AppRouteModule = {
   path: '/log-query',
@@ -17,7 +17,7 @@ const logQuery: AppRouteModule = {
     {
       path: 'index',
       name: 'LogQueryIndex',
-      component: () => import('/src/views/easy-log/log-query/index.vue'),
+      component: () => import('/@/views/easy-log/log-query/index.vue'),
       meta: {
         title: t('routes.log-query.title'),
         icon: 'material-symbols:search',

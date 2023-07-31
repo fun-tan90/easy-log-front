@@ -1,7 +1,7 @@
-import type { AppRouteModule } from '/src/router/types';
+import type { AppRouteModule } from '/@/router/types';
 
-import { LAYOUT } from '/src/router/constant';
-import { t } from '/src/hooks/web/useI18n';
+import { LAYOUT } from '/@/router/constant';
+import { t } from '/@/hooks/web/useI18n';
 
 const sysManagement: AppRouteModule = {
   path: '/sys-management',
@@ -21,7 +21,7 @@ const sysManagement: AppRouteModule = {
         icon: 'fluent-emoji-high-contrast:card-index-dividers',
         ignoreKeepAlive: false,
       },
-      component: () => import('/src/views/easy-log/sys-management/index-management/index.vue'),
+      component: () => import('/@/views/easy-log/sys-management/index-management/index.vue'),
     },
   ],
 };
