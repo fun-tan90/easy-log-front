@@ -51,8 +51,11 @@ git clone git@github.com:easy-log/easy-log-front.git
 ```bash
 cd easy-log-front
 
-# 全局安装pnpm
+# 全局安装pnpm, pnpm是同类工具速度的将近2倍
 npm install -g pnpm
+
+# 卸载pnpm
+npm rm -g pnpm
 
 # 验证
 pnpm -v # 出现对应版本号即代表安装成功
