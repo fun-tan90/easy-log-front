@@ -93,7 +93,7 @@ export const useUserStore = defineStore({
         const token = await loginApi(loginParams, mode);
 
         // save token
-        this.setToken(token);
+        this.setToken(`Bearer ${token}`);
         return this.afterLoginAction(goHome);
       } catch (error) {
         return Promise.reject(error);
