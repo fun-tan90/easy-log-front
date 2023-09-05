@@ -1,7 +1,7 @@
 {
   "name": "easy-log",
   "version": "1.1.2",
-  "homepage": "https://gitee.com/easy-log/easy-log-front.git",
+  "homepage": "https://gitee.com/fun-tan90/easy-log-front.git",
   "bugs": {
     "url": ""
   },
@@ -13,7 +13,7 @@
   "author": {
     "name": "tan90",
     "email": "89754644@qq.com",
-    "url": "https://gitee.com/easy-log/easy-log-front.git"
+    "url": "https://gitee.com/fun-tan90/easy-log-front.git"
   },
   "scripts": {
     "bootstrap": "pnpm install",

@@ -41,9 +41,9 @@
 - 获取项目代码
 
 ```bash
-git clone git@gitee.com:easy-log/easy-log-front.git
+git clone git@gitee.com:fun-tan90/easy-log-front.git
 # OR
-git clone git@github.com:easy-log/easy-log-front.git
+git clone git@github.com:fun-tan90/easy-log-front.git
 ```
 
 - 安装依赖
