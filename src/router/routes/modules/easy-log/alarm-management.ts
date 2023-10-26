@@ -16,7 +16,7 @@ const alarmManagement: AppRouteModule = {
   children: [
     {
       path: 'index',
-      name: 'AlarmManagementIndex',
+      name: 'AlarmManagementIndex2',
       component: () => import('/@/views/easy-log/alarm-management/index.vue'),
       meta: {
         icon: 'icon-park-outline:alarm',
